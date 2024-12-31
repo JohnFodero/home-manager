@@ -1,5 +1,5 @@
 {
-  description = "Home Manager configuration of johnfodero";
+  description = "johnfodero dotfiles";
 
   inputs = {
     # Specify the source of Home Manager and Nixpkgs.
@@ -13,7 +13,15 @@
   outputs = { nixpkgs, home-manager, ... }:
     let
       system = "aarch64-darwin";
-      pkgs = nixpkgs.legacyPackages.${system};
+      #pkgs = nixpkgs.legacyPackages.${system};
+      pkgs = import nixpkgs {
+        inherit system;
+        config = {
+          allowUnfreePredicate = pkg: builtins.elem (nixpkgs.lib.getName pkg) [
+            "graphite-cli"
+          ];
+        };
+      };
     in {
       homeConfigurations."johnfodero" = home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
