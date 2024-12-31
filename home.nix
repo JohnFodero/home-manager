@@ -20,6 +20,7 @@
   home.packages = with pkgs; [
     # utils
     bat
+    tree
     htop
 
     # TODO
@@ -101,7 +102,7 @@
     enable = true;
     diff-so-fancy.enable = true;
     includes = [
-      { path = "~/.gitlocalconfig"; }
+      { path = "~/.gitconfig"; }
     ];
     aliases = {
       ap = "add -p";
