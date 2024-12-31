@@ -20,6 +20,15 @@
   home.packages = with pkgs; [
     # utils
     bat
+    htop
+
+    # TODO
+    # atuin
+    # zsh
+    # zoxide
+
+    # source control
+    #graphite-cli
 
     # # Adds the 'hello' command to your environment. It prints a friendly
     # # "Hello, world!" when run.
@@ -77,8 +86,33 @@
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
 
+  programs.direnv = {
+    enable = true;
+    enableZshIntegration = true;
+    enableBashIntegration = false;
+    nix-direnv.enable = true;
+  };
+
+  programs.fzf = {
+    enable = true;
+    enableZshIntegration = true;
+    enableBashIntegration = true;
+  };
+
+  programs.go.enable = true;
+  
   programs.git = {
     enable = true;
     diff-so-fancy.enable = true;
+    includes = [
+      { path = "~/.gitlocalconfig"; }
+    ];
+    aliases = {
+      ap = "add -p";
+    };
+    extraConfig = {
+      pull.ff = "only";
+    };
   };
+  
 }
