@@ -103,6 +103,7 @@
   
   programs.git = {
     enable = true;
+    userName = "John Fodero";
     diff-so-fancy.enable = true;
     includes = [
       { path = "~/.gitlocalconfig"; }
