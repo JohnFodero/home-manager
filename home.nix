@@ -26,7 +26,6 @@
     # TODO
     # atuin
     # zsh
-    # zoxide
 
     # source control
     graphite-cli
@@ -114,9 +113,24 @@
     };
   };
 
+  programs.starship = {
+    enable = true;
+    enableZshIntegration = true; 
+    settings =
+          builtins.fromTOML (builtins.readFile ./.starship.toml);
+  };
+
   programs.zoxide = {
     enable = true;
     enableZshIntegration = true;
     enableBashIntegration = false;
+  };
+
+  programs.zsh = {
+    enable = true;
+    enableCompletion = true;
+    autosuggestion.enable = true;
+    # initExtraFirst = "";
+    # initExtra = builtins.readFile ./zshrc;
   };
 }
