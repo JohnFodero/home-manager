@@ -106,10 +106,17 @@
     ];
     aliases = {
       ap = "add -p";
+      gs = "status";
+      gb = "branch --sort=-committerdate | head -n 5";
     };
     extraConfig = {
       pull.ff = "only";
     };
   };
-  
+
+  programs.zoxide = {
+    enable = true;
+    enableZshIntegration = true;
+    enableBashIntegration = false;
+  };
 }
