@@ -103,11 +103,7 @@
     includes = [
       { path = "~/.gitconfig"; }
     ];
-    aliases = {
-      ap = "add -p";
-      gs = "status";
-      gb = "branch --sort=-committerdate | head -n 5";
-    };
+    aliases = {};
     extraConfig = {
       pull.ff = "only";
     };
@@ -136,6 +132,11 @@
     enable = true;
     enableCompletion = true;
     autosuggestion.enable = true;
+    shellAliases = {
+	ga = "git add -p";
+	gs = "git status";
+	gb = "git branch --sort=-committerdate | head -n 5";
+    };
     # initExtraFirst = "";
     # initExtra = builtins.readFile ./zshrc;
   };
