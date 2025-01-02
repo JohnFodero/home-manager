@@ -30,6 +30,8 @@
     # source control
     graphite-cli
 
+    # lang
+    uv
     # # It is sometimes useful to fine-tune packages, for example, by applying
     # # overrides. You can do that directly here, just don't forget the
     # # parentheses. Maybe you want to install Nerd Fonts with a limited number of
@@ -119,7 +121,12 @@
   programs.tmux = {
     enable = true;
     mouse = true;
-   # terminal = "xterm-kitty";
+  
+    plugins = with pkgs; [
+      tmuxPlugins.better-mouse-mode
+      tmuxPlugins.catppuccin
+      tmuxPlugins.vim-tmux-navigator
+    ];
   };
 
   programs.zoxide = {
@@ -133,10 +140,13 @@
     enableCompletion = true;
     autosuggestion.enable = true;
     shellAliases = {
-	ga = "git add -p";
+        # git	
+        ga = "git add -p";
 	gs = "git status";
 	gb = "git branch --sort=-committerdate | head -n 5";
-    };
+        # nix
+        hmu = "home-manager switch --flake .";
+  };
     # initExtraFirst = "";
     # initExtra = builtins.readFile ./zshrc;
   };
