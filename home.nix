@@ -120,6 +120,12 @@
           builtins.fromTOML (builtins.readFile ./.starship.toml);
   };
 
+  programs.tmux = {
+    enable = true;
+    mouse = true;
+   # terminal = "xterm-kitty";
+  };
+
   programs.zoxide = {
     enable = true;
     enableZshIntegration = true;
