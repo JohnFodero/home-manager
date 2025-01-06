@@ -1,5 +1,4 @@
 { config, pkgs, ... }:
-
 {
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
@@ -22,6 +21,7 @@
     bat
     tree
     htop
+    just
 
     # TODO
     # atuin
@@ -29,7 +29,7 @@
 
     # source control
     graphite-cli
-
+    gh
     # lang
     uv
     # # It is sometimes useful to fine-tune packages, for example, by applying
@@ -84,6 +84,18 @@
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
 
+  programs.atuin = {
+    enable = true;
+    enableZshIntegration = true;
+    settings = {
+      dialect = "us";
+      style = "compact";
+      inline_height = 15;
+      keymap_mode = "vim-normal";
+      enter_accept = false;
+    };
+  };
+
   programs.direnv = {
     enable = true;
     enableZshIntegration = true;
@@ -109,6 +121,13 @@
     extraConfig = {
       pull.ff = "only";
     };
+  };
+  
+  programs.nixvim = {
+    enable = true;
+
+    colorschemes.catppuccin.enable = true;
+    plugins.lualine.enable = true;
   };
 
   programs.starship = {
@@ -145,7 +164,7 @@
 	gs = "git status";
 	gb = "git branch --sort=-committerdate | head -n 5";
         # nix
-        hmu = "home-manager switch --flake .";
+        hmu = "home-manager switch --flake ~/.config/home-manager/.";
   };
     # initExtraFirst = "";
     # initExtra = builtins.readFile ./zshrc;
