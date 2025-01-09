@@ -23,15 +23,17 @@
     htop
     just
 
-    # TODO
-    # atuin
-    # zsh
 
     # source control
     graphite-cli
     gh
+    
     # lang
     uv
+    cargo
+    rustc
+
+
     # # It is sometimes useful to fine-tune packages, for example, by applying
     # # overrides. You can do that directly here, just don't forget the
     # # parentheses. Maybe you want to install Nerd Fonts with a limited number of
@@ -125,9 +127,56 @@
   
   programs.nixvim = {
     enable = true;
+    
+    globals = {
+      # Set <space> as the leader key
+      # See `:help mapleader`
+      mapleader = " ";
+      maplocalleader = " ";
 
+      have_nerd_font = true;
+    };
     colorschemes.catppuccin.enable = true;
     plugins.lualine.enable = true;
+    
+    plugins.gitsigns = {
+      enable = true;
+      settings = {
+        signs = {
+          add = {text = "+";};
+          change = {text = "~";};
+          delete = {text = "_";};
+          topdelete = {text = "‾";};
+          changedelete = {text = "~";};
+        };
+      };
+    };
+
+    plugins.lsp = {
+      enable = true;
+      servers = {
+      	dockerls = {
+	  enable = true;
+	};
+	gopls = {
+	  enable = true;
+	};
+        nil_ls = {
+	  enable = true;
+	};
+        ruff = {
+          enable = true;
+	};
+	rust_analyzer = {
+	  enable = true;
+	  installCargo = false;
+	  installRustc = false;
+	};
+	terraform_lsp = {
+	  enable = true;
+	};
+      };
+    };
   };
 
   programs.starship = {
