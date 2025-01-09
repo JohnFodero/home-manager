@@ -13,7 +13,7 @@
   # want to update the value, then make sure to first check the Home Manager
   # release notes.
   home.stateVersion = "24.11"; # Please read the comment before changing.
-
+  
   # The home.packages option allows you to install Nix packages into your
   # environment.
   home.packages = with pkgs; [
@@ -136,9 +136,21 @@
 
       have_nerd_font = true;
     };
+    opts = {
+      relativenumber = true;
+      showmode = false;
+
+      ignorecase = true;
+      smartcase = true;
+
+    };
     colorschemes.catppuccin.enable = true;
+
+    plugins.copilot-vim.enable = true;
+    plugins.copilot-chat.enable = true;
     plugins.lualine.enable = true;
     
+    plugins.gitblame.enable = true;
     plugins.gitsigns = {
       enable = true;
       settings = {
@@ -155,26 +167,108 @@
     plugins.lsp = {
       enable = true;
       servers = {
-      	dockerls = {
-	  enable = true;
-	};
-	gopls = {
-	  enable = true;
-	};
-        nil_ls = {
-	  enable = true;
-	};
-        ruff = {
-          enable = true;
-	};
+      	dockerls.enable = true;
+	gopls.enable = true;
+        nil_ls.enable = true;
+
+        ruff.enable = true;
+	
 	rust_analyzer = {
 	  enable = true;
 	  installCargo = false;
 	  installRustc = false;
 	};
-	terraform_lsp = {
-	  enable = true;
-	};
+	terraform_lsp.enable = true;
+      };
+    };
+    plugins.nvim-autopairs.enable = true;
+    plugins.cmp = {
+      enable = true;
+
+      settings = {
+        snippet = {
+          expand = ''
+            function(args)
+              require('luasnip').lsp_expand(args.body)
+            end
+          '';
+        };
+
+        completion = {
+          completeopt = "menu,menuone,noinsert";
+        };
+
+        # For an understanding of why these mappings were
+        # chosen, you will need to read `:help ins-completion`
+        #
+        # No, but seriously, Please read `:help ins-completion`, it is really good!
+        mapping = {
+          # Select the [n]ext item
+          "<C-n>" = "cmp.mapping.select_next_item()";
+          # Select the [p]revious item
+          "<C-p>" = "cmp.mapping.select_prev_item()";
+          # Scroll the documentation window [b]ack / [f]orward
+          "<C-b>" = "cmp.mapping.scroll_docs(-4)";
+          "<C-f>" = "cmp.mapping.scroll_docs(4)";
+          # Accept ([y]es) the completion.
+          #  This will auto-import if your LSP supports it.
+          #  This will expand snippets if the LSP sent a snippet.
+          "<C-y>" = "cmp.mapping.confirm { select = true }";
+          # If you prefer more traditional completion keymaps,
+          # you can uncomment the following lines.
+          # "<CR>" = "cmp.mapping.confirm { select = true }";
+          # "<Tab>" = "cmp.mapping.select_next_item()";
+          # "<S-Tab>" = "cmp.mapping.select_prev_item()";
+
+          # Manually trigger a completion from nvim-cmp.
+          #  Generally you don't need this, because nvim-cmp will display
+          #  completions whenever it has completion options available.
+          "<C-Space>" = "cmp.mapping.complete {}";
+
+          # Think of <c-l> as moving to the right of your snippet expansion.
+          #  So if you have a snippet that's like:
+          #  function $name($args)
+          #    $body
+          #  end
+          #
+          # <c-l> will move you to the right of the expansion locations.
+          # <c-h> is similar, except moving you backwards.
+          "<C-l>" = ''
+            cmp.mapping(function()
+              if luasnip.expand_or_locally_jumpable() then
+                luasnip.expand_or_jump()
+              end
+            end, { 'i', 's' })
+          '';
+          "<C-h>" = ''
+            cmp.mapping(function()
+              if luasnip.locally_jumpable(-1) then
+                luasnip.jump(-1)
+              end
+            end, { 'i', 's' })
+          '';
+
+          # For more advanced Luasnip keymaps (e.g. selecting choice nodes, expansion) see:
+          #    https://github.com/L3MON4D3/LuaSnip?tab=readme-ov-file#keymaps
+        };
+
+        # Dependencies
+        #
+        # WARNING: If plugins.cmp.autoEnableSources Nixivm will automatically enable the
+        # corresponding source plugins. This will work only when this option is set to a list.
+        # If you use a raw lua string, you will need to explicitly enable the relevant source
+        # plugins in your nixvim configuration.
+        sources = [
+          {
+            name = "luasnip";
+          }
+          {
+            name = "nvim_lsp";
+          }
+          {
+            name = "path";
+          }
+        ];
       };
     };
   };

@@ -23,7 +23,7 @@
         inherit system;
         config = {
           allowUnfreePredicate = pkg: builtins.elem (nixpkgs.lib.getName pkg) [
-            "graphite-cli"
+            "graphite-cli" "copilot.vim"
           ];
         };
       };
