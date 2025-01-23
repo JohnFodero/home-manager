@@ -308,7 +308,10 @@
 	gb = "git branch --sort=-committerdate | head -n 5";
         # nix
         hmu = "home-manager switch --flake ~/.config/home-manager/.";
-  };
+    };
+    initExtra = ''
+      eval "$(/opt/homebrew/bin/brew shellenv)"
+    '';
     # initExtraFirst = "";
     # initExtra = builtins.readFile ./zshrc;
   };
