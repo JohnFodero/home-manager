@@ -23,16 +23,22 @@
     htop
     just
 
+    qemu
+    minikube 
 
+    apple-sdk
+    catppuccin
     # source control
     graphite-cli
     gh
     
     # lang
     uv
-    cargo
-    rustc
-
+    rustup
+#    cargo
+#    rustc
+	
+#    docker-buildx
 
     # # It is sometimes useful to fine-tune packages, for example, by applying
     # # overrides. You can do that directly here, just don't forget the
