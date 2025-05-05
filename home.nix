@@ -54,7 +54,7 @@
     #   echo "Hello, ${config.home.username}!"
     # '')
   ];
-
+ 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
   # plain files is through 'home.file'.
   home.file = {
@@ -136,8 +136,6 @@
     enable = true;
     
     globals = {
-      # Set <space> as the leader key
-      # See `:help mapleader`
       mapleader = " ";
       maplocalleader = " ";
 
@@ -150,7 +148,6 @@
       shiftwidth = 2;
       ignorecase = true;
       smartcase = true;
-
     };
     keymaps = [
     	#### telescope ####
@@ -161,6 +158,10 @@
         {
           action = "<cmd>Telescope live_grep<CR>";
           key = "<leader>fg";
+        }
+        {
+          action = "<cmd>Telescope live_grep_args<CR>";
+          key = "<leader>fa";
         }
         {
           action = "<cmd>Telescope buffers<CR>";
@@ -203,7 +204,8 @@
 					key = "<leader>rn";
 				}
 				{
-				  action = "<cmd>lua vim.lsp.buf.format({async = true})<cr>";
+				# action = "<cmd>lua vim.plugins.conform()<cr>";
+				action = "<cmd>lua vim.lsp.buf.format({async = true})<cr>";
 				# action = "<cmd>lua conform.format({lsp_fallback=true, async=true, timeout_ms=1000})<cr>";
 					key = "<leader>fm";
 				}
@@ -237,7 +239,28 @@
 
     colorschemes.catppuccin.enable = true;
 	
-    plugins.telescope.enable = true;
+    plugins.telescope = {
+			enable = true;
+			extensions = {
+				live-grep-args = {
+					enable = true;
+					settings = {
+						auto_quoting = true;
+						mappings = {
+							i = {
+								"<leader>i" = {
+									__raw = "require(\"telescope-live-grep-args.actions\").quote_prompt({ postfix = \" --iglob \" })";
+								};
+								"<leader>r" = {
+									__raw = "require(\"telescope.actions\").to_fuzzy_refine";
+								};
+							};
+						};
+						theme = "dropdown";
+					};
+				};
+			};
+		};
 		plugins.harpoon = {
 			enable = true;
 			enableTelescope = true;
@@ -300,35 +323,60 @@
       ];
     };
   };
-    plugins.conform-nvim = {
-      enable = true;
-      settings = {
-        formatters_by_ft = {
-          css = [ "prettier" ];
-          html = [ "prettier" ];
-          json = [ "prettier" ];
-          lua = [ "stylua" ];
-          markdown = [ "prettier" ];
-          nix = [ "alejandra" ];
-          python = [ "black" ];
-          ruby = [ "rubyfmt" ];
-          terraform = [ "tofu_fmt" ];
-          tf = [ "tofu_fmt" ];
-          yaml = [ "yamlfmt" ];
-        };
-				format_on_save = {
-        	lsp_fallback = true;
-          async = false;
-          timeout_ms = 500;
-        };
-      };
-    };
+	plugins.comment = {
+			enable = true;
+			settings = {
+				opleader.line = "<C-b>";
+				toggler.line = "<C-b>";
+			};
+		};
+		plugins.todo-comments = {
+			enable = true;
+			settings = {
+				keywords = {
+					TODO = {
+					  color = "warning";
+					  icon = " ";
+				  };
+				};
+				highlight = {
+					pattern = ".*<(KEYWORDS)\\s*";
+				};
+			};
+		};
+    # plugins.conform-nvim = {
+    #   enable = true;
+    #   settings = {
+    #     formatters_by_ft = {
+    #       css = [ "prettier" ];
+    # 	javascript = [ "prettier" ];
+    #       html = [ "prettier" ];
+    #       json = [ "prettier" ];
+    #       lua = [ "stylua" ];
+    #       markdown = [ "prettier" ];
+    # 	nix = [ "alejandra" "nixfmt" "nixpkgs_fmt" ];
+    #       python = [ "isort" "black" ];
+    #       ruby = [ "rubyfmt" ];
+    #       terraform = [ "tofu_fmt" ];
+    #       tf = [ "tofu_fmt" ];
+    #       yaml = [ "yamlfmt" ];
+    #     };
+    # format_on_save = {
+    #     	lsp_fallback = true;
+    #       async = false;
+    #       timeout_ms = 1000;
+    #     };
+    #   };
+    # };
     plugins.lsp = {
       enable = true;
       servers = {
       	dockerls.enable = true;
 	gopls.enable = true;
-        nil_ls.enable = true;
+        nil_ls = {
+					enable = true;
+
+				};
         ruff.enable = true;
 	rust_analyzer = {
 	  enable = true;
