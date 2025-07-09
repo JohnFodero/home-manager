@@ -45,6 +45,8 @@
 		ruff
 
 	
+		# cloud
+		google-cloud-sdk
 
     # # It is sometimes useful to fine-tune packages, for example, by applying
     # # overrides. You can do that directly here, just don't forget the
@@ -148,16 +150,19 @@
   programs.tmux = {
     enable = true;
     mouse = true;
-  
+		terminal = "tmux-256color";
     plugins = with pkgs; [
       tmuxPlugins.better-mouse-mode
-      tmuxPlugins.catppuccin
-			# tmuxPlugins.kanagawa
       tmuxPlugins.vim-tmux-navigator
+			tmuxPlugins.tmux-fzf
+			{
+
+				plugin = tmuxPlugins.gruvbox;
+				extraConfig = ''
+					set -g @tmux-gruvbox 'light'
+					'';
+			}
     ];
-		extraConfig = ''
-			set -g @catppuccin_flavor 'latte'
-		'';
   };
 
   programs.zoxide = {
@@ -175,6 +180,9 @@
         ga = "git add -p";
       	gs = "git status";
       	gb = "git branch --sort=-committerdate | head -n 5";
+				# graphite
+				gtm = "gt modify";
+				gts = "gt submit";
         # nix
         hmu = "home-manager switch --flake ~/.config/home-manager/.";
 				dep-dev = "thor deploy-pr dev $(gh pr view --json number | jq -r '.number')";

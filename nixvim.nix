@@ -152,8 +152,8 @@
           enable = true;
           settings.preset = "helix";
         };
-    plugins.copilot-vim.enable = false;
-    plugins.copilot-chat.enable = true;
+    # plugins.copilot-vim.enable = false;
+    # plugins.copilot-chat.enable = true;
     plugins.lualine.enable = true;
     
     plugins.gitblame.enable = true;
@@ -203,7 +203,7 @@
 			enable = true;
 			settings = {
 				opleader.line = "<C-b>";
-				toggler.line = "<C-b>";
+				toggler.line = "<C-l>";
 			};
 		};
 		plugins.todo-comments = {
