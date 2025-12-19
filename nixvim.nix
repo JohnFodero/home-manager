@@ -4,7 +4,7 @@
 {
   programs.nixvim = {
     enable = true;
-    
+
     globals = {
       mapleader = " ";
       maplocalleader = " ";
@@ -19,250 +19,282 @@
       ignorecase = true;
       smartcase = true;
     };
-		extraConfigVim = "";
+    extraConfigVim = "";
     keymaps = [
-    	#### telescope ####
-        {
-          action = "<cmd>Telescope find_files<CR>";
-          key = "<leader>ff";
-        }
-        {
-          action = "<cmd>Telescope live_grep<CR>";
-          key = "<leader>fg";
-        }
-        {
-          action = "<cmd>Telescope live_grep_args<CR>";
-          key = "<leader>fa";
-        }
-        {
-          action = "<cmd>Telescope buffers<CR>";
-          key = "<leader>fb";
-        }
-        {
-          action = "<cmd>Telescope help_tags<CR>";
-          key = "<leader>fh";
-        }
-				{
-					action = "<cmd>lua vim.lsp.buf.hover()<cr>";
-					key = "<leader>K";
-				}
-				{
-					action = "<cmd>lua vim.lsp.buf.definition()<cr>";
-					key = "<leader>gd";
-				}
-				{
-					action = "<cmd>lua vim.lsp.buf.declaration()<cr>";
-					key = "<leader>gD";
-				}
-				{
-					action = "<cmd>lua vim.lsp.buf.implementation()<cr>";
-					key = "<leader>gi";
-				}
-				{
-					action = "<cmd>lua vim.lsp.buf.type_definition()<cr>";
-					key = "<leader>go";
-				}
-				{
-					action = "<cmd>lua vim.lsp.buf.references()<cr>";
-					key = "<leader>gr";
-				}
-				{
-					action = "<cmd>lua vim.lsp.buf.signature_help()<cr>";
-					key = "<leader>gs";
-				}
-				{
-					action = "<cmd>lua vim.lsp.buf.rename()<cr>";
-					key = "<leader>rn";
-				}
-				{
-				# action = "<cmd>lua vim.plugins.conform()<cr>";
-				action = "<cmd>lua vim.lsp.buf.format({async = true})<cr>";
-				# action = "<cmd>lua conform.format({lsp_fallback=true, async=true, timeout_ms=1000})<cr>";
-					key = "<leader>fm";
-				}
-				{
-					action = "<cmd>lua vim.lsp.buf.code_action()<cr>";
-					key = "<leader>ga";
-				}
-				#### HARPOON ####
-				# does not work yet...
-				{
-					action.__raw = "function() require'harpoon':list():add() end";
-					key = "<leader>a";
-					mode = "n";
-				}
-				{
-					action.__raw = "function() require'harpoon'.ui:toggle_quick_menu(require'harpoon':list()) end";
-					key = "<C-e>";
-					mode = "n";
-				}
-				{
-					action.__raw = "function() require'harpoon':list():select(1) end";
-					key = "<C-h>";
-					mode = "n";
-				}
-				{
-					action.__raw = "function() require'harpoon':list():select(2) end";
-					key = "<C-j>";
-					mode = "n";
-				}
+      #### telescope ####
+      {
+        action = "<cmd>Telescope find_files<CR>";
+        key = "<leader>ff";
+      }
+      {
+        action = "<cmd>Telescope live_grep<CR>";
+        key = "<leader>fg";
+      }
+      {
+        action = "<cmd>Telescope live_grep_args<CR>";
+        key = "<leader>fa";
+      }
+      {
+        action = "<cmd>Telescope buffers<CR>";
+        key = "<leader>fb";
+      }
+      {
+        action = "<cmd>Telescope help_tags<CR>";
+        key = "<leader>fh";
+      }
+      {
+        action = "<cmd>lua vim.lsp.buf.hover()<cr>";
+        key = "<leader>K";
+      }
+      {
+        action = "<cmd>lua vim.lsp.buf.definition()<cr>";
+        key = "<leader>gd";
+      }
+      {
+        action = "<cmd>lua vim.lsp.buf.declaration()<cr>";
+        key = "<leader>gD";
+      }
+      {
+        action = "<cmd>lua vim.lsp.buf.implementation()<cr>";
+        key = "<leader>gi";
+      }
+      {
+        action = "<cmd>lua vim.lsp.buf.type_definition()<cr>";
+        key = "<leader>go";
+      }
+      {
+        action = "<cmd>lua vim.lsp.buf.references()<cr>";
+        key = "<leader>gr";
+      }
+      {
+        action = "<cmd>lua vim.lsp.buf.signature_help()<cr>";
+        key = "<leader>gs";
+      }
+      {
+        action = "<cmd>lua vim.lsp.buf.rename()<cr>";
+        key = "<leader>rn";
+      }
+      {
+        # action = "<cmd>lua vim.plugins.conform()<cr>";
+        action = "<cmd>lua vim.lsp.buf.format({async = true})<cr>";
+        # action = "<cmd>lua conform.format({lsp_fallback=true, async=true, timeout_ms=1000})<cr>";
+        key = "<leader>fm";
+      }
+      {
+        action = "<cmd>lua vim.lsp.buf.code_action()<cr>";
+        key = "<leader>ga";
+      }
+      #### HARPOON ####
+      # does not work yet...
+      {
+        action.__raw = "function() require'harpoon':list():add() end";
+        key = "<leader>a";
+        mode = "n";
+      }
+      {
+        action.__raw = "function() require'harpoon'.ui:toggle_quick_menu(require'harpoon':list()) end";
+        key = "<C-e>";
+        mode = "n";
+      }
+      {
+        action.__raw = "function() require'harpoon':list():select(1) end";
+        key = "<C-h>";
+        mode = "n";
+      }
+      {
+        action.__raw = "function() require'harpoon':list():select(2) end";
+        key = "<C-j>";
+        mode = "n";
+      }
     ];
-
-		colorschemes.vscode = {
-			enable = true;
-			settings = {
-				italic_comments = true;
-				underline_links = true;
-			};
-		};
+    colorschemes.vscode = {
+      enable = true;
+      settings = {
+        italic_comments = true;
+        underline_links = true;
+      };
+    };
     plugins.telescope = {
-			enable = true;
-			extensions = {
-				live-grep-args = {
-					enable = true;
-					settings = {
-						auto_quoting = true;
-						mappings = {
-							i = {
-								"<leader>i" = {
-									__raw = "require(\"telescope-live-grep-args.actions\").quote_prompt({ postfix = \" --iglob \" })";
-								};
-								"<leader>r" = {
-									__raw = "require(\"telescope.actions\").to_fuzzy_refine";
-								};
-							};
-						};
-						theme = "dropdown";
-					};
-				};
-			};
-		};
-		plugins.harpoon = {
-			enable = true;
-			enableTelescope = true;
-		};
+      enable = true;
+      extensions = {
+        live-grep-args = {
+          enable = true;
+          settings = {
+            auto_quoting = true;
+            mappings = {
+              i = {
+                "<leader>i" = {
+                  __raw = "require(\"telescope-live-grep-args.actions\").quote_prompt({ postfix = \" --iglob \" })";
+                };
+                "<leader>r" = {
+                  __raw = "require(\"telescope.actions\").to_fuzzy_refine";
+                };
+              };
+            };
+            theme = "dropdown";
+          };
+        };
+      };
+    };
+    plugins.vim-dadbod = {
+      enable = true;
+    };
+    plugins.vim-dadbod-completion = {
+      enable = true;
+    };
+    plugins.vim-dadbod-ui = {
+      enable = true;
+    };
+    plugins.harpoon = {
+      enable = false;
+      enableTelescope = true;
+    };
 
     plugins.treesitter = {
-          enable = true;
-          folding = false;
-          settings.indent.enable = true;
-        };
+      enable = true;
+      folding = false;
+      settings.indent.enable = true;
+    };
     plugins.web-devicons.enable = true;
     plugins.which-key = {
-          enable = true;
-          settings.preset = "helix";
-        };
+      enable = true;
+      settings.preset = "helix";
+    };
     # plugins.copilot-vim.enable = false;
     # plugins.copilot-chat.enable = true;
     plugins.lualine.enable = true;
-    
+
     plugins.gitblame.enable = true;
     plugins.gitsigns = {
       enable = true;
       settings = {
         signs = {
-          add = {text = "+";};
-          change = {text = "~";};
-          delete = {text = "_";};
-          topdelete = {text = "‾";};
-          changedelete = {text = "~";};
+          add = {
+            text = "+";
+          };
+          change = {
+            text = "~";
+          };
+          delete = {
+            text = "_";
+          };
+          topdelete = {
+            text = "‾";
+          };
+          changedelete = {
+            text = "~";
+          };
         };
       };
     };
-	plugins.startify = {
-    enable = true;
+    plugins.startify = {
+      enable = true;
 
-    settings = {
-      custom_header = [
-        ""
-        "     ███╗   ██╗██╗██╗  ██╗██╗   ██╗██╗███╗   ███╗"
-        "     ████╗  ██║██║╚██╗██╔╝██║   ██║██║████╗ ████║"
-        "     ██╔██╗ ██║██║ ╚███╔╝ ██║   ██║██║██╔████╔██║"
-        "     ██║╚██╗██║██║ ██╔██╗ ╚██╗ ██╔╝██║██║╚██╔╝██║"
-        "     ██║ ╚████║██║██╔╝ ██╗ ╚████╔╝ ██║██║ ╚═╝ ██║"
-        "     ╚═╝  ╚═══╝╚═╝╚═╝  ╚═╝  ╚═══╝  ╚═╝╚═╝     ╚═╝"
-      ];
+      settings = {
+        custom_header = [
+          ""
+          "     ███╗   ██╗██╗██╗  ██╗██╗   ██╗██╗███╗   ███╗"
+          "     ████╗  ██║██║╚██╗██╔╝██║   ██║██║████╗ ████║"
+          "     ██╔██╗ ██║██║ ╚███╔╝ ██║   ██║██║██╔████╔██║"
+          "     ██║╚██╗██║██║ ██╔██╗ ╚██╗ ██╔╝██║██║╚██╔╝██║"
+          "     ██║ ╚████║██║██╔╝ ██╗ ╚████╔╝ ██║██║ ╚═╝ ██║"
+          "     ╚═╝  ╚═══╝╚═╝╚═╝  ╚═╝  ╚═══╝  ╚═╝╚═╝     ╚═╝"
+        ];
 
-      # When opening a file or bookmark, change to its directory.
-      change_to_dir = false;
+        # When opening a file or bookmark, change to its directory.
+        change_to_dir = false;
 
-      # By default, the fortune header uses ASCII characters, because they work for everyone.
-      # If you set this option to 1 and your 'encoding' is "utf-8", Unicode box-drawing characters will
-      # be used instead.
-      use_unicode = true;
+        # By default, the fortune header uses ASCII characters, because they work for everyone.
+        # If you set this option to 1 and your 'encoding' is "utf-8", Unicode box-drawing characters will
+        # be used instead.
+        use_unicode = true;
 
-      lists = [ { type = "dir"; } ];
-      files_number = 30;
+        lists = [ { type = "dir"; } ];
+        files_number = 30;
 
-      skiplist = [
-        "flake.lock"
-      ];
-    };
-  };
-	plugins.comment = {
-			enable = true;
-			settings = {
-				opleader.line = "<C-b>";
-				toggler.line = "<C-l>";
-			};
-		};
-		plugins.todo-comments = {
-			enable = true;
-			settings = {
-				keywords = {
-					TODO = {
-					  color = "warning";
-					  icon = " ";
-				  };
-				};
-				highlight = {
-					pattern = ".*<(KEYWORDS)\\s*";
-				};
-			};
-		};
-    # plugins.conform-nvim = {
-    #   enable = true;
-    #   settings = {
-    #     formatters_by_ft = {
-    #       css = [ "prettier" ];
-    # 	javascript = [ "prettier" ];
-    #       html = [ "prettier" ];
-    #       json = [ "prettier" ];
-    #       lua = [ "stylua" ];
-    #       markdown = [ "prettier" ];
-    # 	nix = [ "alejandra" "nixfmt" "nixpkgs_fmt" ];
-    #       python = [ "isort" "black" ];
-    #       ruby = [ "rubyfmt" ];
-    #       terraform = [ "tofu_fmt" ];
-    #       tf = [ "tofu_fmt" ];
-    #       yaml = [ "yamlfmt" ];
-    #     };
-    # format_on_save = {
-    #     	lsp_fallback = true;
-    #       async = false;
-    #       timeout_ms = 1000;
-    #     };
-    #   };
-    # };
-		plugins.lsp-format = {
-        enable = true;
-        lspServersToEnable = "all";
+        skiplist = [
+          "flake.lock"
+        ];
       };
+    };
+    plugins.comment = {
+      enable = true;
+      settings = {
+        opleader.line = "<C-b>";
+        toggler.line = "<C-l>";
+      };
+    };
+    plugins.todo-comments = {
+      enable = true;
+      settings = {
+        keywords = {
+          TODO = {
+            color = "warning";
+            icon = " ";
+          };
+        };
+        highlight = {
+          pattern = ".*<(KEYWORDS)\\s*";
+        };
+      };
+    };
+    plugins.conform-nvim = {
+      enable = true;
+      settings = {
+        formatters_by_ft = {
+          css = [ "prettier" ];
+          javascript = [ "prettier" ];
+          html = [ "prettier" ];
+          json = [ "prettier" ];
+          lua = [ "stylua" ];
+          markdown = [ "prettier" ];
+          nix = [
+            "alejandra"
+            "nixfmt"
+            "nixpkgs_fmt"
+          ];
+          python = [
+            "isort"
+            "black"
+          ];
+          ruby = [ "rubyfmt" ];
+          sql = [ "sleek" ];
+          terraform = [ "tofu_fmt" ];
+          tf = [ "tofu_fmt" ];
+          yaml = [ "yamlfmt" ];
+        };
+        format_on_save = {
+          lsp_fallback = true;
+          async = false;
+          timeout_ms = 1000;
+        };
+      };
+    };
+    plugins.lsp-format = {
+      enable = true;
+      lspServersToEnable = "all";
+    };
     plugins.lsp = {
       enable = true;
       servers = {
-      	dockerls.enable = true;
-	      gopls.enable = true;
+        dockerls.enable = true;
+        gopls.enable = true;
         nil_ls = {
-					enable = true;
-				};
+          enable = true;
+        };
         ruff.enable = true;
-	rust_analyzer = {
-	  enable = true;
-	  installCargo = false;
-	  installRustc = false;
-	};
-	terraform_lsp.enable = true;
+        rust_analyzer = {
+          enable = true;
+          installCargo = false;
+          installRustc = false;
+        };
+        terraform_lsp.enable = true;
+      };
+    };
+    plugins.lspkind = {
+      enable = true;
+      symbolMap = {
+        vim-dadbod-completion = "[SQL]";
       };
     };
     plugins.nvim-autopairs.enable = true;
@@ -345,12 +377,23 @@
         sources = [
           {
             name = "luasnip";
+            priority = 750;
           }
           {
             name = "nvim_lsp";
+            priority = 1000;
+          }
+          {
+            name = "buffer";
+            priority = 500;
           }
           {
             name = "path";
+            priority = 250;
+          }
+          {
+            name = "vim-dadbod-completion";
+            priority = 700;
           }
         ];
       };

@@ -1,8 +1,5 @@
-{ config, pkgs, ... }:
-{
-	imports = [
-    ./nixvim.nix
-  ];
+{ config, pkgs, ... }: {
+  imports = [ ./nixvim.nix ];
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
   home.username = "johnfodero";
@@ -16,7 +13,7 @@
   # want to update the value, then make sure to first check the Home Manager
   # release notes.
   home.stateVersion = "24.11"; # Please read the comment before changing.
-  
+
   # The home.packages option allows you to install Nix packages into your
   # environment.
   home.packages = with pkgs; [
@@ -25,28 +22,43 @@
     tree
     htop
     just
-    
+
+    # nixvim helpers
+    mysql84 # needed for vim-dadbod clickhouse connections
+    sleek
+    black
+    nixfmt-classic
+    nixpkgs-fmt
+    alejandra
+    isort
+    prettier
+    stylua
+    yamlfmt
+
     # containers
     qemu
-    minikube 
+    minikube
 
     # apple-specific
     apple-sdk
-    
+
     # source control
     graphite-cli
-		gh
-    
+    gh
+    difftastic
+
     # lang
     uv
     rustup
-#    cargo
-#    rustc
-		ruff
+    #    cargo
+    #    rustc
+    ruff
 
-	
-		# cloud
-		google-cloud-sdk
+    # terminal
+    terminal-notifier
+
+    # cloud
+    google-cloud-sdk
 
     # # It is sometimes useful to fine-tune packages, for example, by applying
     # # overrides. You can do that directly here, just don't forget the
@@ -61,7 +73,7 @@
       echo "Hello, ${config.home.username}!"
     '')
   ];
- 
+
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
   # plain files is through 'home.file'.
   home.file = {
@@ -91,11 +103,9 @@
   #
   # or
   #
- #  /etc/profiles/per-user/johnfodero/etc/profile.d/hm-session-vars.sh
+  #  /etc/profiles/per-user/johnfodero/etc/profile.d/hm-session-vars.sh
   #
-  home.sessionVariables = {
-    EDITOR = "nvim";
-  };
+  home.sessionVariables = { EDITOR = "nvim"; };
 
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
@@ -126,42 +136,35 @@
   };
 
   programs.go.enable = true;
-  
+
   programs.git = {
     enable = true;
-    diff-so-fancy.enable = true;
-    includes = [
-      { path = "~/.gitconfig"; }
-    ];
-    aliases = {};
-    extraConfig = {
-      pull.ff = "only";
-    };
+    difftastic.enable = true;
+    includes = [{ path = "~/.gitconfig"; }];
+    aliases = { };
+    extraConfig = { pull.ff = "only"; };
   };
-  
 
   programs.starship = {
     enable = true;
-    enableZshIntegration = true; 
-    settings =
-          builtins.fromTOML (builtins.readFile ./.starship.toml);
+    enableZshIntegration = true;
+    settings = builtins.fromTOML (builtins.readFile ./.starship.toml);
   };
 
   programs.tmux = {
     enable = true;
     mouse = true;
-		terminal = "tmux-256color";
+    terminal = "tmux-256color";
     plugins = with pkgs; [
       tmuxPlugins.better-mouse-mode
       tmuxPlugins.vim-tmux-navigator
-			tmuxPlugins.tmux-fzf
-			{
-
-				plugin = tmuxPlugins.gruvbox;
-				extraConfig = ''
-					set -g @tmux-gruvbox 'light'
-					'';
-			}
+      tmuxPlugins.tmux-fzf
+      {
+        plugin = tmuxPlugins.gruvbox;
+        extraConfig = ''
+          set -g @tmux-gruvbox 'light'
+        '';
+      }
     ];
   };
 
@@ -176,19 +179,38 @@
     enableCompletion = true;
     autosuggestion.enable = true;
     shellAliases = {
-        # git	
-        ga = "git add -p";
-      	gs = "git status";
-      	gb = "git branch --sort=-committerdate | head -n 5";
-				# graphite
-				gtm = "gt modify";
-				gts = "gt submit";
-        # nix
-        hmu = "home-manager switch --flake ~/.config/home-manager/.";
-				dep-dev = "thor deploy-pr dev $(gh pr view --json number | jq -r '.number')";
+      # generic
+      ll = "ls -al";
+      # git
+      ga = "git add -p";
+      gs = "git status";
+      gb = "git branch --sort=-committerdate | head -n 5";
+      # graphite
+      gtm = "gt modify";
+      gts = "gt submit";
+      gtms = "gt modify && gt submit";
+      # nix
+      hmu =
+        "home-manager switch --flake ~/.config/home-manager/. && source ~/.zshrc";
+      dep-dev =
+        "thor deploy-pr dev $(gh pr view --json number | jq -r '.number')";
+      # opencode
+      oc = "/Users/johnfodero/.opencode/bin/opencode";
+      # other
+      weather = "curl 'wttr.in/?T'";
     };
     initExtra = ''
-      eval "$(/opt/homebrew/bin/brew shellenv)"
+         eval "$(/opt/homebrew/bin/brew shellenv)"
+
+      setup_dadbod() {
+      	local secret_file="$HOME/.convig/dadbod_setup.sh"
+      	if [[ -f "$secret_file" ]]; then
+      		source "$secret_file"
+      	else
+      		echo "$secret_file not found" >&2
+      		return 1
+      	fi
+      }
     '';
     # initExtraFirst = "";
     # initExtra = builtins.readFile ./zshrc;

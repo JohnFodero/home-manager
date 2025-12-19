@@ -9,9 +9,9 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nixvim = {
-        url = "github:nix-community/nixvim";
-        # If using a stable channel you can use `url = "github:nix-community/nixvim/nixos-<version>"`
-        inputs.nixpkgs.follows = "nixpkgs";
+      url = "github:nix-community/nixvim";
+      # If using a stable channel you can use `url = "github:nix-community/nixvim/nixos-<version>"`
+      inputs.nixpkgs.follows = "nixpkgs";
     };
   };
 
@@ -22,26 +22,26 @@
       pkgs = import nixpkgs {
         inherit system;
         config = {
-          allowUnfreePredicate = pkg: builtins.elem (nixpkgs.lib.getName pkg) [
-            "graphite-cli" "copilot.vim"
-          ];
+          allowUnfreePredicate = pkg:
+            builtins.elem (nixpkgs.lib.getName pkg) [
+              "graphite-cli"
+              "copilot.vim"
+            ];
         };
       };
-    in {
-      homeConfigurations."johnfodero" = home-manager.lib.homeManagerConfiguration {
-        inherit pkgs;
-        
-        # Specify your home configuration modules here, for example,
-        # the path to your home.nix.
-        modules = [ 
-          ./home.nix 
-          nixvim.homeManagerModules.nixvim 
-        ];
-        
-        # Optionally use extraSpecialArgs
-        # to pass through arguments to home.nix
-        extraSpecialArgs = { inherit nixvim; };
+    in
+    {
+      homeConfigurations."johnfodero" =
+        home-manager.lib.homeManagerConfiguration {
+          inherit pkgs;
 
-      };
+          # Specify your home configuration modules here, for example,
+          # the path to your home.nix.
+          modules = [ ./home.nix nixvim.homeManagerModules.nixvim ];
+
+          # Optionally use extraSpecialArgs
+          # to pass through arguments to home.nix
+          extraSpecialArgs = { inherit nixvim; };
+        };
     };
 }
