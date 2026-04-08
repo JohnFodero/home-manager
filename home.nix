@@ -1,4 +1,9 @@
-{ config, pkgs, ... }: {
+{
+  config,
+  pkgs,
+  ...
+}:
+{
   imports = [ ./nixvim.nix ];
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
@@ -27,9 +32,7 @@
     mysql84 # needed for vim-dadbod clickhouse connections
     sleek
     black
-    nixfmt-classic
-    nixpkgs-fmt
-    alejandra
+    nixfmt
     isort
     prettier
     stylua
@@ -45,6 +48,7 @@
     # source control
     graphite-cli
     gh
+    gh-dash
     difftastic
 
     # lang
@@ -105,7 +109,9 @@
   #
   #  /etc/profiles/per-user/johnfodero/etc/profile.d/hm-session-vars.sh
   #
-  home.sessionVariables = { EDITOR = "nvim"; };
+  home.sessionVariables = {
+    EDITOR = "nvim";
+  };
 
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
@@ -135,14 +141,20 @@
     enableBashIntegration = true;
   };
 
-  programs.go.enable = true;
+  programs.go.enable = false;
+
+  programs.difftastic = {
+    enable = true;
+    git.enable = true;
+  };
 
   programs.git = {
     enable = true;
-    difftastic.enable = true;
-    includes = [{ path = "~/.gitconfig"; }];
-    aliases = { };
-    extraConfig = { pull.ff = "only"; };
+    settings = {
+      aliases = { };
+      pull.ff = "only";
+    };
+    includes = [ { path = "~/.gitconfig"; } ];
   };
 
   programs.starship = {
@@ -190,12 +202,12 @@
       gts = "gt submit";
       gtms = "gt modify && gt submit";
       # nix
-      hmu =
-        "home-manager switch --flake ~/.config/home-manager/. && source ~/.zshrc";
-      dep-dev =
-        "thor deploy-pr dev $(gh pr view --json number | jq -r '.number')";
+      hmu = "home-manager switch --flake ~/.config/home-manager/. && source ~/.zshrc";
+      dep-dev = "thor deploy-pr dev $(gh pr view --json number | jq -r '.number')";
       # opencode
       oc = "/Users/johnfodero/.opencode/bin/opencode";
+      # claude code
+      claude = "aws-sso exec --profile gen-ai-models:gen-ai-inference /Users/johnfodero/.claude/local/claude";
       # other
       weather = "curl 'wttr.in/?T'";
     };
@@ -212,7 +224,7 @@
       	fi
       }
     '';
-    # initExtraFirst = "";
+    initExtraFirst = "export PATH=$PATH:/Users/johnfodero/go/bin:/usr/local/go/bin";
     # initExtra = builtins.readFile ./zshrc;
   };
 }

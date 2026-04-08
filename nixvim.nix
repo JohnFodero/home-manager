@@ -1,6 +1,4 @@
-{
-  ...
-}:
+{ ... }:
 {
   programs.nixvim = {
     enable = true;
@@ -67,6 +65,10 @@
         key = "<leader>gr";
       }
       {
+        action = "<cmd>lua vim.diagnostic.open_float()<cr>";
+        key = "<leader>e";
+      }
+      {
         action = "<cmd>lua vim.lsp.buf.signature_help()<cr>";
         key = "<leader>gs";
       }
@@ -124,10 +126,10 @@
             mappings = {
               i = {
                 "<leader>i" = {
-                  __raw = "require(\"telescope-live-grep-args.actions\").quote_prompt({ postfix = \" --iglob \" })";
+                  __raw = ''require("telescope-live-grep-args.actions").quote_prompt({ postfix = " --iglob " })'';
                 };
                 "<leader>r" = {
-                  __raw = "require(\"telescope.actions\").to_fuzzy_refine";
+                  __raw = ''require("telescope.actions").to_fuzzy_refine'';
                 };
               };
             };
@@ -154,6 +156,9 @@
       enable = true;
       folding = false;
       settings.indent.enable = true;
+    };
+    plugins.treesitter-context = {
+      enable = true;
     };
     plugins.web-devicons.enable = true;
     plugins.which-key = {
@@ -212,9 +217,7 @@
         lists = [ { type = "dir"; } ];
         files_number = 30;
 
-        skiplist = [
-          "flake.lock"
-        ];
+        skiplist = [ "flake.lock" ];
       };
     };
     plugins.comment = {
@@ -249,7 +252,6 @@
           lua = [ "stylua" ];
           markdown = [ "prettier" ];
           nix = [
-            "alejandra"
             "nixfmt"
             "nixpkgs_fmt"
           ];
@@ -282,6 +284,7 @@
         nil_ls = {
           enable = true;
         };
+        pyright.enable = true;
         ruff.enable = true;
         rust_analyzer = {
           enable = true;
