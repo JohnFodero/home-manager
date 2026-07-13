@@ -116,6 +116,7 @@
         underline_links = true;
       };
     };
+    plugins.smear-cursor.enable = true;
     plugins.telescope = {
       enable = true;
       extensions = {
@@ -154,7 +155,7 @@
 
     plugins.treesitter = {
       enable = true;
-      folding = false;
+      folding.enable = false;
       settings.indent.enable = true;
     };
     plugins.treesitter-context = {
@@ -169,6 +170,10 @@
     # plugins.copilot-chat.enable = true;
     plugins.lualine.enable = true;
 
+    plugins.plenary.enable = true;
+    plugins.octo = {
+      enable = true;
+    };
     plugins.gitblame.enable = true;
     plugins.gitsigns = {
       enable = true;
@@ -296,7 +301,7 @@
     };
     plugins.lspkind = {
       enable = true;
-      symbolMap = {
+      settings.symbol_map = {
         vim-dadbod-completion = "[SQL]";
       };
     };

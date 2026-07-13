@@ -174,7 +174,8 @@
       {
         plugin = tmuxPlugins.gruvbox;
         extraConfig = ''
-          set -g @tmux-gruvbox 'light'
+            set -g @tmux-gruvbox 'dark'
+          	set-option -s extended-keys on
         '';
       }
     ];
@@ -207,7 +208,7 @@
       # opencode
       oc = "/Users/johnfodero/.opencode/bin/opencode";
       # claude code
-      claude = "aws-sso exec --profile gen-ai-models:gen-ai-inference /Users/johnfodero/.claude/local/claude";
+      claude = "unset AWS_ACCESS_KEY_ID AWS_SECRET_ACCESS_KEY && aws-sso exec --profile gen-ai-models:gen-ai-inference /Users/johnfodero/.claude/local/claude";
       # other
       weather = "curl 'wttr.in/?T'";
     };
@@ -224,7 +225,6 @@
       	fi
       }
     '';
-    initExtraFirst = "export PATH=$PATH:/Users/johnfodero/go/bin:/usr/local/go/bin";
-    # initExtra = builtins.readFile ./zshrc;
+    initContent = "export PATH=$PATH:/Users/johnfodero/go/bin:/usr/local/go/bin";
   };
 }

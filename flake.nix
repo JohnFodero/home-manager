@@ -15,14 +15,21 @@
     };
   };
 
-  outputs = { nixpkgs, home-manager, nixvim, ... }:
+  outputs =
+    {
+      nixpkgs,
+      home-manager,
+      nixvim,
+      ...
+    }:
     let
       system = "aarch64-darwin";
       #pkgs = nixpkgs.legacyPackages.${system};
       pkgs = import nixpkgs {
         inherit system;
         config = {
-          allowUnfreePredicate = pkg:
+          allowUnfreePredicate =
+            pkg:
             builtins.elem (nixpkgs.lib.getName pkg) [
               "graphite-cli"
               "copilot.vim"
@@ -31,17 +38,19 @@
       };
     in
     {
-      homeConfigurations."johnfodero" =
-        home-manager.lib.homeManagerConfiguration {
-          inherit pkgs;
+      homeConfigurations."johnfodero" = home-manager.lib.homeManagerConfiguration {
+        inherit pkgs;
 
-          # Specify your home configuration modules here, for example,
-          # the path to your home.nix.
-          modules = [ ./home.nix nixvim.homeManagerModules.nixvim ];
+        # Specify your home configuration modules here, for example,
+        # the path to your home.nix.
+        modules = [
+          ./home.nix
+          nixvim.homeModules.nixvim
+        ];
 
-          # Optionally use extraSpecialArgs
-          # to pass through arguments to home.nix
-          extraSpecialArgs = { inherit nixvim; };
-        };
+        # Optionally use extraSpecialArgs
+        # to pass through arguments to home.nix
+        extraSpecialArgs = { inherit nixvim; };
+      };
     };
 }
